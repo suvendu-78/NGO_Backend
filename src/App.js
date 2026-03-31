@@ -1,9 +1,7 @@
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 // import { clerkMiddleware, requireAuth } from "@clerk/express";
-
-
 
 import { router } from "./Router/Router.js";
 
@@ -16,8 +14,10 @@ const app = express();
 // CORS
 app.use(
   cors({
-    origin: ["https://samyogeesahityasansada.com",
-  "https://www.samyogeesahityasansada.com"],
+    origin: [
+      "https://samyogeesahityasansada.com",
+      "https://www.samyogeesahityasansada.com",
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   }),
@@ -37,7 +37,6 @@ app.use("/api/v1/user", router);
 //     message: "Backend running with Clerk 🚀",
 //   });
 // });
-
 
 app.get("/api/protected", (req, res) => {
   res.json({
