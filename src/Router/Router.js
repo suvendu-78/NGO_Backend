@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Register, Login } from "../Controller/controller.js";
+
 import UpdateOrderStatus from "../Controller/adminOrder.controller.js";
 import CreateBook from "../Controller/bookcontroller.js";
 import CreateOrder from "../Controller/order.controller.js";
