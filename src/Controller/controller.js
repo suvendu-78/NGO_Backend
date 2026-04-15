@@ -98,7 +98,7 @@ const Login = Async(async (req, res) => {
 
 
 
-import sendEmail from "../Utils/sendEmail.js";
+import SendMail from "../Utils/sendMail.js";
 
 const SendOtp = Async(async (req, res) => {
   const { email } = req.body;
@@ -114,7 +114,7 @@ const SendOtp = Async(async (req, res) => {
 
   await user.save();
 
-  await sendEmail(email, "OTP Code", `Your OTP is ${otp}`);
+  await SendMail(email, "OTP Code", `Your OTP is ${otp}`);
 
   return res
     .status(200)
