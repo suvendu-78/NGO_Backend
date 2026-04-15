@@ -95,4 +95,77 @@ const Login = Async(async (req, res) => {
     );
 });
 
-export { Register, Login };
+
+
+
+import sendEmail from "../Utils/sendEmail.js";
+
+const SendOtp = Async(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ Email: email });
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  user.otp = otp;
+  user.otpExpiry = Date.now() + 5 * 60 * 1000;
+
+  await user.save();
+
+  await sendEmail(email, "OTP Code", `Your OTP is ${otp}`);
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, {}, "OTP sent successfully"));
+});
+
+const VerifyOtp = Async(async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ Email: email });
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  if (user.otp !== otp) {
+    throw new ApiError(400, "Invalid OTP");
+  }
+
+  if (user.otpExpiry < Date.now()) {
+    throw new ApiError(400, "OTP expired");
+  }
+
+  return res.status(200).json(new Apiresponse(200, {}, "OTP verified"));
+});
+
+const ResetPassword = Async(async (req, res) => {
+  const { email, password, otp } = req.body;
+
+  const user = await User.findOne({ Email: email });
+
+  if (!user) throw new ApiError(404, "User not found");
+
+  if (user.otp !== otp) {
+    throw new ApiError(400, "Invalid OTP");
+  }
+
+  if (user.otpExpiry < Date.now()) {
+    throw new ApiError(400, "OTP expired");
+  }
+
+  user.Password = password; // ✅ auto hash
+
+  user.otp = undefined;
+  user.otpExpiry = undefined;
+
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, {}, "Password reset successful"));
+});
+
+
+
+export { Register, Login,SendOtp,VerifyOtp,ResetPassword};

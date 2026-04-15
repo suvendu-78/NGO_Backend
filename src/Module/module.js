@@ -48,6 +48,14 @@ const UserSchema = new mongoose.Schema(
     Refresh_token: {
       type: String,
     },
+    otp: {
+      type: String,
+    },
+
+    otpExpiry: {
+      type: Date,
+    },
+
   },
   { timestamps: true },
 );

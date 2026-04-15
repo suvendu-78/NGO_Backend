@@ -6,6 +6,13 @@ import CreateOrder from "../Controller/order.controller.js";
 import upload from "../Middlewire/upload.middleware.js";
 import { Book } from "../Module/Book.model.js";
 import { registerAdmin, loginAdmin } from "../Controller/requireAdmin.js";
+import {
+  Register,
+  Login,
+  SendOtp,
+  VerifyOtp,
+  ResetPassword,
+} from "../Controller/controller.js";
 
 import { RequireAdmin } from "../Middlewire/adminmiddlewire.js";
 import { verifyToken } from "../Middlewire/user.middlewire.js";
@@ -19,6 +26,9 @@ router.post("/login", Login);
 router.post("/adminregister", registerAdmin);
 router.post("/loginAdmin", loginAdmin);
 
+router.post("/send-otp", SendOtp);
+router.post("/verify-otp", VerifyOtp);
+router.post("/reset-password", ResetPassword);
 
 // Razorpay Payment Route
 router.post("/payment/create-order", verifyToken, createRazorpayOrder);
