@@ -10,6 +10,8 @@ import {
   adminForgotPassword,
   adminVerifyOtp,
   adminResetPassword,
+  registerAdmin, 
+  loginAdmin
 } from "../Controller/requireAdmin.js";
 import {
   Register,
