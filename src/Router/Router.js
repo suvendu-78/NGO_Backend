@@ -5,7 +5,12 @@ import CreateBook from "../Controller/bookcontroller.js";
 import CreateOrder from "../Controller/order.controller.js";
 import upload from "../Middlewire/upload.middleware.js";
 import { Book } from "../Module/Book.model.js";
-import { registerAdmin, loginAdmin } from "../Controller/requireAdmin.js";
+// import { registerAdmin, loginAdmin } from "../Controller/requireAdmin.js";
+import {
+  adminForgotPassword,
+  adminVerifyOtp,
+  adminResetPassword,
+} from "../Controller/requireAdmin.js";
 import {
   Register,
   Login,
@@ -29,6 +34,10 @@ router.post("/loginAdmin", loginAdmin);
 router.post("/send-otp", SendOtp);
 router.post("/verify-otp", VerifyOtp);
 router.post("/reset-password", ResetPassword);
+
+router.post("/admin/forgot-password", adminForgotPassword);
+router.post("/admin/verify-otp", adminVerifyOtp);
+router.post("/admin/reset-password", adminResetPassword);
 
 // Razorpay Payment Route
 router.post("/payment/create-order", verifyToken, createRazorpayOrder);

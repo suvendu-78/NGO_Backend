@@ -72,3 +72,48 @@ export const loginAdmin = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const adminVerifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const admin = await User.findOne({ Email: email });
+
+    if (!admin || admin.resetOtp !== otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    if (admin.otpExpire < Date.now()) {
+      return res.status(400).json({ message: "OTP expired" });
+    }
+
+    res.json({ message: "OTP verified" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+import bcrypt from "bcrypt";
+
+export const adminResetPassword = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const admin = await User.findOne({ Email: email });
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    admin.Password = hashedPassword;
+    admin.resetOtp = null;
+    admin.otpExpire = null;
+
+    await admin.save();
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
