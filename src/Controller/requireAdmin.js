@@ -92,7 +92,7 @@ export const adminVerifyOtp = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-import bcrypt from "bcrypt";
+
 
 export const adminResetPassword = async (req, res) => {
   try {
