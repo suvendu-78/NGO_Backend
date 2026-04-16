@@ -93,6 +93,34 @@ export const adminVerifyOtp = async (req, res) => {
   }
 };
 
+export const adminForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const admin = await User.findOne({ Email: email, role: "admin" });
+
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    admin.resetOtp = otp;
+    admin.otpExpire = Date.now() + 10 * 60 * 1000; // 10 min
+
+    await admin.save();
+
+    await SendMail({
+      to: email,
+      subject: "Admin Password Reset OTP",
+      html: `<h2>Your OTP is: ${otp}</h2>`,
+    });
+
+    res.json({ message: "OTP sent to email" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 export const adminResetPassword = async (req, res) => {
   try {
