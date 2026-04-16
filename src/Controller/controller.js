@@ -115,7 +115,7 @@ const SendOtp = Async(async (req, res) => {
   await user.save();
 
   // ✅ FIXED HERE
-  await sendEmail({
+  await SendMail({
     to: email,
     subject: "OTP Code",
     html: `<h3>Your OTP is ${otp}</h3>`,
