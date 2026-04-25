@@ -141,7 +141,7 @@ import { verifyToken } from "../Middlewire/user.middlewire.js";
 import {
   CreateEbookPurchase,
   GetMyEbooks,
-} from "../Controller/ebookPurchase.controller.js";
+} from "../Controller/ebookcontroller.js";
 const router = Router();
 
 // ================= USER AUTH =================
