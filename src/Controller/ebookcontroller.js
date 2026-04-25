@@ -1,4 +1,4 @@
-import Purchase from "../Module/ebookpurchase.model.js";
+import Purchase from "../Module/ebookPurchase.model.js";
 import Async from "../Utils/Async.js";
 
 const CreateEbookPurchase = Async(async (req, res) => {
