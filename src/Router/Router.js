@@ -1,18 +1,115 @@
+// import { Router } from "express";
+
+// import UpdateOrderStatus from "../Controller/adminOrder.controller.js";
+// import CreateBook from "../Controller/bookcontroller.js";
+// import CreateOrder from "../Controller/order.controller.js";
+// import upload from "../Middlewire/upload.middleware.js";
+// import { Book } from "../Module/Book.model.js";
+// // import { registerAdmin, loginAdmin } from "../Controller/requireAdmin.js";
+// import {
+//   adminForgotPassword,
+//   adminVerifyOtp,
+//   adminResetPassword,
+//   registerAdmin, 
+//   loginAdmin
+// } from "../Controller/requireAdmin.js";
+// import {
+//   Register,
+//   Login,
+//   SendOtp,
+//   VerifyOtp,
+//   ResetPassword,
+// } from "../Controller/controller.js";
+
+// import { RequireAdmin } from "../Middlewire/adminmiddlewire.js";
+// import { verifyToken } from "../Middlewire/user.middlewire.js";
+// import GetAllOrders from "../Controller/ordergetall.js";
+// import { createRazorpayOrder } from "../Controller/payment.controller.js";
+// import GetMyOrders from "../Controller/getMyOrders.controller.js";
+// const router = Router();
+
+// router.post("/register", Register);
+// router.post("/login", Login);
+// router.post("/adminregister", registerAdmin);
+// router.post("/loginAdmin", loginAdmin);
+
+// router.post("/send-otp", SendOtp);
+// router.post("/verify-otp", VerifyOtp);
+// router.post("/reset-password", ResetPassword);
+
+// router.post("/admin/forgot-password", adminForgotPassword);
+// router.post("/admin/verify-otp", adminVerifyOtp);
+// router.post("/admin/reset-password", adminResetPassword);
+
+// // Razorpay Payment Route
+// router.post("/payment/create-order", verifyToken, createRazorpayOrder);
+// // user order
+// router.post("/order/create", verifyToken, CreateOrder);
+
+// router.put("/admin/order/:id", verifyToken, RequireAdmin, UpdateOrderStatus);
+
+// router.get("/admin/orders", verifyToken, RequireAdmin, GetAllOrders);
+
+// //order history
+// router.get("/my-orders", verifyToken, GetMyOrders);
+
+// router.post(
+//   "/admin/upload-book",
+//   // verifyToken,
+//   // RequireAdmin,
+//   upload.fields([
+//     { name: "pdf", maxCount: 1 },
+//     { name: "image", maxCount: 1 },
+//   ]),
+//   CreateBook,
+// );
+
+// router.get("/admin/dashboard", verifyToken, RequireAdmin, async (req, res) => {
+//   res.json({
+//     success: true,
+//     message: "Welcome Admin Dashboard",
+//     adminId: req.user.id,
+//   });
+// });
+
+// router.get("/books", async (req, res) => {
+//   try {
+//     const books = await Book.find().sort({ createdAt: -1 });
+
+//     res.status(200).json({
+//       success: true,
+//       books,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// });
+// router.get("/ebooks", async (req, res) => {
+//   const books = await Book.find({ type: "ebook" }).sort({ createdAt: -1 });
+
+//   res.json({
+//     success: true,
+//     books,
+//   });
+// });
+
+// // PHYSICAL BOOK only
+// router.get("/physical-books", async (req, res) => {
+//   const books = await Book.find({ type: "book" }).sort({ createdAt: -1 });
+
+//   res.json({
+//     success: true,
+//     books,
+//   });
+// });
+
+// export { router };
+
 import { Router } from "express";
 
-import UpdateOrderStatus from "../Controller/adminOrder.controller.js";
-import CreateBook from "../Controller/bookcontroller.js";
-import CreateOrder from "../Controller/order.controller.js";
-import upload from "../Middlewire/upload.middleware.js";
-import { Book } from "../Module/Book.model.js";
-// import { registerAdmin, loginAdmin } from "../Controller/requireAdmin.js";
-import {
-  adminForgotPassword,
-  adminVerifyOtp,
-  adminResetPassword,
-  registerAdmin, 
-  loginAdmin
-} from "../Controller/requireAdmin.js";
 import {
   Register,
   Login,
@@ -21,18 +118,44 @@ import {
   ResetPassword,
 } from "../Controller/controller.js";
 
+import {
+  registerAdmin,
+  loginAdmin,
+  adminForgotPassword,
+  adminVerifyOtp,
+  adminResetPassword,
+} from "../Controller/requireAdmin.js";
+
+import UpdateOrderStatus from "../Controller/adminOrder.controller.js";
+import CreateBook from "../Controller/bookcontroller.js";
+import CreateOrder from "../Controller/order.controller.js";
+import GetAllOrders from "../Controller/ordergetall.js";
+import GetMyOrders from "../Controller/getMyOrders.controller.js";
+import { createRazorpayOrder } from "../Controller/payment.controller.js";
+
+import upload from "../Middlewire/upload.middleware.js";
+import { Book } from "../Module/Book.model.js";
+
 import { RequireAdmin } from "../Middlewire/adminmiddlewire.js";
 import { verifyToken } from "../Middlewire/user.middlewire.js";
-import GetAllOrders from "../Controller/ordergetall.js";
-import { createRazorpayOrder } from "../Controller/payment.controller.js";
-import GetMyOrders from "../Controller/getMyOrders.controller.js";
+import {
+  CreateEbookPurchase,
+  GetMyEbooks,
+} from "../Controller/ebookPurchase.controller.js";
 const router = Router();
 
+// ================= USER AUTH =================
 router.post("/register", Register);
 router.post("/login", Login);
+
+// ================= ADMIN AUTH =================
 router.post("/adminregister", registerAdmin);
 router.post("/loginAdmin", loginAdmin);
 
+router.post("/ebook/purchase", verifyToken, CreateEbookPurchase);
+router.get("/my-ebooks", verifyToken, GetMyEbooks);
+
+// ================= PASSWORD RESET =================
 router.post("/send-otp", SendOtp);
 router.post("/verify-otp", VerifyOtp);
 router.post("/reset-password", ResetPassword);
@@ -41,22 +164,22 @@ router.post("/admin/forgot-password", adminForgotPassword);
 router.post("/admin/verify-otp", adminVerifyOtp);
 router.post("/admin/reset-password", adminResetPassword);
 
-// Razorpay Payment Route
+// ================= PAYMENT =================
 router.post("/payment/create-order", verifyToken, createRazorpayOrder);
-// user order
+
+// ================= USER ORDERS =================
 router.post("/order/create", verifyToken, CreateOrder);
-
-router.put("/admin/order/:id", verifyToken, RequireAdmin, UpdateOrderStatus);
-
-router.get("/admin/orders", verifyToken, RequireAdmin, GetAllOrders);
-
-//order history
 router.get("/my-orders", verifyToken, GetMyOrders);
 
+// ================= ADMIN ORDERS =================
+router.get("/admin/orders", verifyToken, RequireAdmin, GetAllOrders);
+router.put("/admin/order/:id", verifyToken, RequireAdmin, UpdateOrderStatus);
+
+// ================= BOOK MANAGEMENT =================
 router.post(
   "/admin/upload-book",
-  // verifyToken,
-  // RequireAdmin,
+  verifyToken,
+  RequireAdmin,
   upload.fields([
     { name: "pdf", maxCount: 1 },
     { name: "image", maxCount: 1 },
@@ -64,7 +187,8 @@ router.post(
   CreateBook,
 );
 
-router.get("/admin/dashboard", verifyToken, RequireAdmin, async (req, res) => {
+// ================= ADMIN DASHBOARD =================
+router.get("/admin/dashboard", verifyToken, RequireAdmin, (req, res) => {
   res.json({
     success: true,
     message: "Welcome Admin Dashboard",
@@ -72,6 +196,7 @@ router.get("/admin/dashboard", verifyToken, RequireAdmin, async (req, res) => {
   });
 });
 
+// ================= PUBLIC BOOK APIs =================
 router.get("/books", async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
@@ -87,6 +212,7 @@ router.get("/books", async (req, res) => {
     });
   }
 });
+
 router.get("/ebooks", async (req, res) => {
   const books = await Book.find({ type: "ebook" }).sort({ createdAt: -1 });
 
@@ -96,7 +222,6 @@ router.get("/ebooks", async (req, res) => {
   });
 });
 
-// PHYSICAL BOOK only
 router.get("/physical-books", async (req, res) => {
   const books = await Book.find({ type: "book" }).sort({ createdAt: -1 });
 
@@ -104,6 +229,31 @@ router.get("/physical-books", async (req, res) => {
     success: true,
     books,
   });
+});
+router.get("/ebook/:id", async (req, res) => {
+  try {
+    const book = await Book.findOne({
+      _id: req.params.id,
+      type: "ebook",
+    });
+
+    if (!book) {
+      return res.status(404).json({
+        success: false,
+        message: "Ebook not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      book,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 export { router };
