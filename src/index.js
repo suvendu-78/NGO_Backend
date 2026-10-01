@@ -11,6 +11,7 @@ const connectDatabase = async () => {
   }
 };
 
+// Vercel handler
 const handler = async (req, res) => {
   try {
     await connectDatabase();
@@ -22,9 +23,25 @@ const handler = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Database connection failed",
+      error: error.message,
     });
   }
 };
+
+// Local development only
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+
+  connectDatabase()
+    .then(() => {
+      App.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("ERROR:", error.message);
+    });
+}
 
 export default handler;
 
