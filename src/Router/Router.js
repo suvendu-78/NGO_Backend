@@ -10,7 +10,7 @@
 //   adminForgotPassword,
 //   adminVerifyOtp,
 //   adminResetPassword,
-//   registerAdmin, 
+//   registerAdmin,
 //   loginAdmin
 // } from "../Controller/requireAdmin.js";
 // import {

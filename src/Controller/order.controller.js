@@ -111,9 +111,9 @@
 //       subject: "📦 Order Placed Successfully",
 //       html: `
 //   <div style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
-    
+
 //     <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-      
+
 //       <!-- HEADER -->
 //       <div style="background:linear-gradient(90deg,#ff7a18,#ffb347); color:white; padding:20px; text-align:center;">
 //         <h2 style="margin:0;">🎉 Order Placed Successfully</h2>
@@ -121,7 +121,7 @@
 
 //       <!-- BODY -->
 //       <div style="padding:20px; color:#333;">
-        
+
 //         <h3 style="margin-top:0;">Hello ${address.fullName}</h3>
 //         <p>Your order has been placed successfully 🎉</p>
 
@@ -171,9 +171,9 @@
 //       subject: "🆕 New Order Received",
 //       html: `
 //   <div style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
-    
+
 //     <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-      
+
 //       <!-- HEADER -->
 //       <div style="background:linear-gradient(90deg,#4e73df,#1cc88a); color:white; padding:20px; text-align:center;">
 //         <h2 style="margin:0;">📦 New Order Received</h2>
@@ -181,7 +181,7 @@
 
 //       <!-- BODY -->
 //       <div style="padding:20px; color:#333;">
-        
+
 //         <p style="font-size:15px;">A new order has been placed in your store.</p>
 
 //         <hr/>
