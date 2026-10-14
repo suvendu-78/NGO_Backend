@@ -46,7 +46,7 @@ const getRazorpay = () => {
 export const createRazorpayOrder = async (req, res) => {
   try {
     const { amount } = req.body;
-
+    console.log(amount);
     if (!amount || amount <= 0) {
       return res.status(400).json({
         success: false,
